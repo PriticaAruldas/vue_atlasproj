@@ -10,108 +10,81 @@
         Basic info, like your name and photo, that you use on Google services
     </div>
     </va-page-header>
-     <!--***********************************************************************-->
-     <va-row>
-       <va-column :xs="12">
-          <va-card :elevation="elevation" :padding="padding">
-            <div slot="topLeft" class="cardtitle">Profile</div>
-            <va-table :hover="hover" :size="size">
-              <table>
-                <thead>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <p class="details" ><strong>NAME</strong></p>
-                    </td>
-                    <td style="padding-right:289px">
-                      <p class="details">Pritica Aruldas</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p class="details"><strong>BIRTHDAY</strong></p>
-                    </td>
-                    <td>
-                      <p class="details">Add Birthday</p>
-                    </td>
-                  </tr>
-                   <tr>
-                    <td>
-                      <p class="details"><strong>USERNAME</strong></p>
-                    </td>
-                    <td>
-                      <p class="details">Pritica</p>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </va-table>
-          </va-card>
-          </va-column>
-     </va-row>
-      <br>
-     <va-row>
-       <va-column :xs="12">
-          <va-card :elevation="elevation" :padding="padding">
-            <div slot="topLeft" class="cardtitle">Contact Info</div>
-            <va-table :hover="hover" :size="size">
-              <table>
-                <!-- <thead>
-                </thead> -->
-                <tbody>
-                 <tr>
-                    <td>
-                      <p class="details"><strong>EMAIL</strong></p>
-                    </td>
-                    <td>
-                      <p class="details">pritica@metapercept.com</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p class="details"><strong>PHONE</strong></p>
-                    </td>
-                    <td>
-                      <p class="details">Add a recovery phone to keep your account secure</p>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </va-table>
-          </va-card>
-          </va-column>
-     </va-row>
-    <br>
-     <va-row>
-       <va-column :xs="12">
-          <va-card :elevation="elevation" :padding="padding">
-            <div slot="topLeft" class="cardtitle">Choose what others see
-            </div>
-              <va-table :hover="hover" :size="size">
-              <table>
-                <!-- <thead>
-                </thead> -->
-                <tbody>
-                 <tr>
-                    <td>
-                      <p class="details">You decide what personal info you make visible to others across Google services</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <p class="details">Go to About Me</p>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                </tbody>
-              </table>
-            </va-table>
-          </va-card>
-          </va-column>
-     </va-row>
+
+    <va-tabs @changed="onTabChange" :cache-lifetime="cacheLifetime">
+      <va-tab name="Profile">
+        <div class="demoTabContent" style="padding:10px">
+          <va-row>
+            <va-column :xs="12">
+              <va-card :elevation="elevation" :padding="padding">
+                <div slot="topLeft" style="padding:10px">Profile</div>
+                 <va-column :xs="12" style="padding:10px">
+                     <div style="padding:5px"><p>Photo</p></div>
+                      <div style="padding:5px">
+                        <va-icon type="user-circle" :size="size" :color="color"></va-icon>
+                      </div>
+                 </va-column>
+                  <br>
+                 <va-column :xs="12">
+                   <va-input
+                  :clearable="clearable"
+                  buttons
+                  :loading="loading"
+                  placeholder="Pritica Aruldas"
+                  @confirm="inputConfirm"
+                  @cancel="inputCancel"
+                  v-model="inputText" icon="user">
+                </va-input>
+                <br>
+                <va-input
+                :clearable="clearable"
+                @change="onChange"
+                placeholder="Add Your Birthday"></va-input>
+                  <br>
+                <va-input icon="user"
+                :clearable="clearable"
+                @change="onChange"
+                placeholder="Pritica"></va-input>
+                  <br>
+                <va-input icon="envelope"
+                :clearable="clearable"
+                @change="onChange"
+                placeholder="pritica@metapercept.com"></va-input>
+                 <br>
+                </va-column>
+            </va-card>
+            </va-column>
+          </va-row>
+        </div>
+      </va-tab>
+      <va-tab name="Contact Information">
+        <div class="demoTabContent" style="padding:10px">
+          <va-row>
+            <va-column :xs="12">
+              <va-card :elevation="elevation" :padding="padding">
+                 <div slot="topLeft" style="padding:10px">Contact Information</div>
+                <va-column :xs="12" style="padding:10px">
+                <va-input icon="envelope"
+                :clearable="clearable"
+                @change="onChange"
+                placeholder="pritica@metapercept.com"></va-input>
+                 <br>
+                <va-input icon="phone-alt"
+                :clearable="clearable"
+                @change="onChange"
+                placeholder="Add a recovery phone to keep your account secure"></va-input>
+                </va-column>
+              </va-card>
+            </va-column>
+          </va-row>
+        </div>
+      </va-tab>
+      <!-- <va-tab name="Tab 3">
+        <div class="demoTabContent">
+          Content for tab 3
+        </div>
+      </va-tab> -->
+    </va-tabs>
     </va-page>
 
   </va-app>
@@ -123,8 +96,28 @@ export default {
     return {
       elevation: 1,
       padding: 5,
-      size: 'lg',
-      hover: true
+      inputText: '',
+      loading: false,
+      clearable: false,
+      size: '7em',
+      gutter: 15,
+      color: '#090D9A'
+    }
+  },
+  methods: {
+    inputConfirm () {
+      this.loading = true
+      console.log('Doing something with value:', this.inputText)
+      setTimeout(() => {
+        this.loading = false
+        console.log('Finished doing something. Setting loading to false so that the input operation buttons know to disappear.')
+      }, 1000)
+    },
+    inputCancel () {
+      console.log('Cancelled')
+    },
+    onChange () {
+      console.log('Changed')
     }
   }
 }
@@ -132,12 +125,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.details{
-  font-size: 12px;
-  padding: 5px;
-}
-.cardtitle{
-  padding: 10px;
-  font-size: 25px;
-}
+
 </style>

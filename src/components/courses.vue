@@ -237,7 +237,7 @@ export default {
       size: 'lg',
       type: 'info',
       title: 'Invite',
-      body: 'Invite students or give them the class code : IWbtv46',
+      body: 'Invite students or give them the class code : IWbtv46'
     }
   },
   methods: {

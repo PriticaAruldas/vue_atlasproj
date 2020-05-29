@@ -40,7 +40,6 @@
         :items="Courses"
         :title="'Courses'"
         :show-toggle="false" />
-      <va-sidebar-group :items="home" :title="'Home'" :defaultOpenLevel="1" :show-toggle="true"/>
     </va-sidebar>
     <!-- https://vue-atlas.com/documentation/page -->
     <va-page :size="sm" :article="article">
@@ -167,7 +166,7 @@ export default {
       padding: 5,
       size: 'lg',
       hover: true,
-      Courses:[
+      Courses: [
         {
           name: 'courses',
           route: '/courses'
